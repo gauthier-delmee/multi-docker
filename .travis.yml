@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t gauthier/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run gauthier/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t gauthier/multi-client ./client
+  - docker build -t gauthier/multi-nginx ./nginx
+  - docker build -t gauthier/multi-server ./server
+  - docker build -t gauthier/multi-worker ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take the images and push them to docker hub
+  - docker push gauthier/multi-client
+  - docker push gauthier/multi-nginx
+  - docker push gauthier/multi-server
+  - docker push gauthier/multi-worker
