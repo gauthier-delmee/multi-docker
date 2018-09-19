@@ -3,7 +3,7 @@ WORKDIR '/app'
 COPY ./package.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run buildhttps://github.com/gauthier-delmee/multi-docker.git
 
 FROM nginx
 EXPOSE 3000
