@@ -3,7 +3,7 @@ WORKDIR '/app'
 COPY ./package.json ./
 RUN npm install
 COPY . .
-RUN npm run build && ls -alF public/build/
+RUN npm run build && ls -alF /app/build/
 
 FROM nginx
 EXPOSE 3000
